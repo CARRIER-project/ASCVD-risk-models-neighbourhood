@@ -1,0 +1,47 @@
+FEMALE_SDH_4_FUNCTION <- function(AGE,
+                                  WEALTH_IMP,
+                                  EDUCATION_LOW_IMP,
+                                  EDUCATION_INTERMEDIATE_IMP,
+                                  EDUCATION_HIGH_IMP,
+                                  PC_PM25,
+                                  TIME) {
+  # Standardisation
+  
+  AGE_STD <- (AGE - 55.84) / 8.47 
+  WEALTH_IMP_STD <- (WEALTH_IMP - 48.07) / 10.78
+  EDUCATION_LOW_IMP_STD <- (EDUCATION_LOW_IMP - 28.21) / 7.57
+  EDUCATION_INTERMEDIATE_IMP_STD <- (EDUCATION_INTERMEDIATE_IMP - 41.86) / 4.09
+  EDUCATION_HIGH_IMP_STD <- (EDUCATION_HIGH_IMP - 29.93) / 9.43
+  PC_PM25_STD <- (PC_PM25 - 59.99) / 25.90
+  
+  # SES
+  
+  SES <- 0.4955965 * WEALTH_IMP_STD +
+        -0.529561 * EDUCATION_LOW_IMP_STD +
+        -0.364728 * EDUCATION_INTERMEDIATE_IMP_STD +
+         0.5838858 * EDUCATION_HIGH_IMP_STD
+  
+  # Linear predictor  
+  
+  LP <- 0.6196 * AGE_STD +
+       -0.1401 * SES +
+        0.0509 * PC_PM25_STD
+  
+  # Time
+  
+  if (TIME == 1) {
+    PRED_ASCVD_RISK <- 1 - 0.9970609 ** exp(LP)
+  } else if (TIME == 2) {
+    PRED_ASCVD_RISK <- 1 - 0.9938334 ** exp(LP)
+  } else if (TIME == 3) {
+    PRED_ASCVD_RISK <- 1 - 0.9908327 ** exp(LP)
+  } else if (TIME == 4) {
+    PRED_ASCVD_RISK <- 1 - 0.9874609 ** exp(LP) 
+  } else {
+    print("Please specify a time-point of 1 year, 2 years, 3 years, or 4 years.")
+  }
+  
+  # Return
+  
+  return(PRED_ASCVD_RISK)
+}
