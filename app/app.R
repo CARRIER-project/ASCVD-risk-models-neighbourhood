@@ -252,7 +252,7 @@ G_NAME_2021_X_Y[6, "G_NAME_2021"] <- "Heerlen"
 G_NAME_2021_X_Y[6, "X"] <- 6.08
 G_NAME_2021_X_Y[6, "Y"] <- 50.95
 G_NAME_2021_X_Y[7, "G_NAME_2021"] <- "Kerkrade"
-G_NAME_2021_X_Y[7, "X"] <- 5.14
+G_NAME_2021_X_Y[7, "X"] <- 6.14
 G_NAME_2021_X_Y[7, "Y"] <- 50.86
 G_NAME_2021_X_Y[8, "G_NAME_2021"] <- "Landgraaf"
 G_NAME_2021_X_Y[8, "X"] <- 6.08
