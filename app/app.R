@@ -359,7 +359,7 @@ server <- function(input, output, session) {
                                             PC_PM25 = reactive({ return(mean(subset(DATA, PC6_2021 == input$PC6)$PC_PM25_2014)) })(),
                                             TIME = 4)
                 
-                return(paste("The estimated 4-year atherosclerotic cardiovascular disease risk is <b style = 'color:#e74c3c'>", paste0(paste0(round(RISK * 100, digits = 2), "%"), "</b>.")))
+                return(paste("The estimated 4-year atherosclerotic cardiovascular disease risk is <b style = 'color:#e74c3c'>", paste0(paste0(format(round(RISK * 100, digits = 2), nsmall = 2), "%"), "</b>.")))
               } else {
                 RISK <- FEMALE_SDH_4_FUNCTION(AGE = reactive({ return(input$AGE) })(),
                                               WEALTH_IMP = reactive({ return(mean(subset(DATA, PC6_2021 == input$PC6)$WEALTH_2014_IMP)) })(),
@@ -369,7 +369,7 @@ server <- function(input, output, session) {
                                               PC_PM25 = reactive({ return(mean(subset(DATA, PC6_2021 == input$PC6)$PC_PM25_2014)) })(),
                                               TIME = 4)
                 
-                return(paste("The estimated 4-year atherosclerotic cardiovascular disease risk is <b style = 'color:#e74c3c'>", paste0(paste0(round(RISK * 100, digits = 2), "%"), "</b>.")))
+                return(paste("The estimated 4-year atherosclerotic cardiovascular disease risk is <b style = 'color:#e74c3c'>", paste0(paste0(format(round(RISK * 100, digits = 2), nsmall = 2), "%"), "</b>.")))
             }
         }
     })
@@ -413,7 +413,7 @@ server <- function(input, output, session) {
                     } else if(RISK_DIVIDED_BY_MIN_RISK  <= 1.05) {
                         return(paste(" This is similar to the risk of a male of the same age living in the neighbourhood with the lowest risk.")) 
                         } else {
-                            return(paste("This is", round(RISK_DIVIDED_BY_MIN_RISK, digits = 2),"times the risk of a male of the same age living in the neighbourhood with the lowest risk."))
+                            return(paste("This is", format(round(RISK_DIVIDED_BY_MIN_RISK, digits = 2), nsmall = 2), "times the risk of a male of the same age living in the neighbourhood with the lowest risk."))
                         }
                 } else {
                     RISK <- FEMALE_SDH_4_FUNCTION(AGE = reactive({ return(input$AGE) })(),
@@ -448,7 +448,7 @@ server <- function(input, output, session) {
                     } else if(RISK_DIVIDED_BY_MIN_RISK <= 1.05){
                         return(paste(" This is similar to the risk of a female of the same age living in the neighbourhood with the lowest risk.")) 
                     } else {
-                        return(paste("This is", round(RISK_DIVIDED_BY_MIN_RISK, digits = 2),"times the risk of a female of the same age living in the neighbourhood with the lowest risk."))
+                        return(paste("This is", format(round(RISK_DIVIDED_BY_MIN_RISK, digits = 2), nsmall = 2), "times the risk of a female of the same age living in the neighbourhood with the lowest risk."))
                     }                
                 }
         }
