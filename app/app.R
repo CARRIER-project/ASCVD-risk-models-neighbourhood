@@ -347,7 +347,7 @@ server <- function(input, output, session) {
 
     output$TEXT_RISK <- renderText({
         if((!isTruthy(input$AGE)) | (!isTruthy(input$MALE)) | (!isTruthy(input$PC6) | (!c(input$PC6 %in% DATA$PC6_2021)) |
-           (input$AGE < 40) | (input$AGE > 70))) {
+           (input$AGE < 40) | (input$AGE >= 70))) {
             return("Please submit the requested information.") 
         } else {
             if(input$MALE == 1) {
@@ -376,7 +376,7 @@ server <- function(input, output, session) {
     
     output$TEXT_COMPARISON <- renderText({
         if((!isTruthy(input$AGE)) | (!isTruthy(input$MALE)) | (!isTruthy(input$PC6) | (!c(input$PC6 %in% DATA$PC6_2021)) |
-           (input$AGE < 40) | (input$AGE > 70))) {
+           (input$AGE < 40) | (input$AGE >= 70))) {
             return(NULL) 
         } else {
             if(input$MALE == 1) {
@@ -456,7 +456,7 @@ server <- function(input, output, session) {
     
     output$TEXT_IMP <- renderText({
         if((!isTruthy(input$AGE)) | (!isTruthy(input$MALE)) | (!isTruthy(input$PC6) | (!c(input$PC6 %in% DATA$PC6_2021)) |
-           (input$AGE < 40) | (input$AGE > 70))) {
+           (input$AGE < 40) | (input$AGE >= 70))) {
             return(NULL)
         } else {
             N_IMP <- reactive({ return(sum(is.na(subset(DATA, PC6_2021 == input$PC6)$WEALTH_2014))) })
@@ -470,7 +470,7 @@ server <- function(input, output, session) {
     
     output$MAP <- renderPlot({
         if(isTruthy(input$AGE) & isTruthy(input$MALE) & isTruthy(input$PC6) & (input$PC6 %in% DATA$PC6_2021) 
-           & (input$AGE >= 40) & (input$AGE <= 70)) { 
+           & (input$AGE >= 40) & (input$AGE < 70)) { 
             GWB_CODE_2021_SELECTED <- reactive({ return(subset(DATA, PC6_2021 == input$PC6)$GWB_CODE_2021) })
             G_NAME_2021_SELECTED <- reactive({ return(subset(DATA, PC6_2021 == input$PC6)$G_NAME_2021) })
             GWB_CODE_2021_GGD_SOUTH_LIMBURG$SELECTED <- ifelse(GWB_CODE_2021_GGD_SOUTH_LIMBURG$GWB_CODE_2021 %in% subset(DATA, G_NAME_2021 == G_NAME_2021_SELECTED()[1])$GWB_CODE_2021,
