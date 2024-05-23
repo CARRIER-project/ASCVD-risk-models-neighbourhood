@@ -32,24 +32,24 @@ GWB_CODE_2021_GGD_SOUTH_LIMBURG <- GWB_CODE_2021
 GWB_CODE_2021_GGD_SOUTH_LIMBURG$GGD_SOUTH_LIMBURG_2021 <- NA
 GGDG_2021_GGD_SOUTH_LIMBURG <- subset(GGDG_2021, GGD_CODE_2021 == 6106)
 for (i in 1:nrow(GWB_CODE_2021_GGD_SOUTH_LIMBURG)) {
-  if(nchar(st_drop_geometry(GWB_CODE_2021_GGD_SOUTH_LIMBURG)[i, "GWB_CODE_2021"]) == 6) {
+  if (nchar(st_drop_geometry(GWB_CODE_2021_GGD_SOUTH_LIMBURG)[i, "GWB_CODE_2021"]) == 6) {
     GWB_CODE_2021_GGD_SOUTH_LIMBURG[i, "GGD_SOUTH_LIMBURG_2021"] <- ifelse(substr(st_drop_geometry(GWB_CODE_2021_GGD_SOUTH_LIMBURG)[i, "GWB_CODE_2021"], 1, 2)
                                                                            %in%
-                                                                             GGDG_2021_GGD_SOUTH_LIMBURG$G_CODE_2021,
+                                                                           GGDG_2021_GGD_SOUTH_LIMBURG$G_CODE_2021,
                                                                            TRUE,
                                                                            FALSE)
   }
-  if(nchar(st_drop_geometry(GWB_CODE_2021_GGD_SOUTH_LIMBURG)[i, "GWB_CODE_2021"]) == 7) {
+  if (nchar(st_drop_geometry(GWB_CODE_2021_GGD_SOUTH_LIMBURG)[i, "GWB_CODE_2021"]) == 7) {
     GWB_CODE_2021_GGD_SOUTH_LIMBURG[i, "GGD_SOUTH_LIMBURG_2021"] <- ifelse(substr(st_drop_geometry(GWB_CODE_2021_GGD_SOUTH_LIMBURG)[i, "GWB_CODE_2021"], 1, 3)
                                                                            %in%
-                                                                             GGDG_2021_GGD_SOUTH_LIMBURG$G_CODE_2021,
+                                                                           GGDG_2021_GGD_SOUTH_LIMBURG$G_CODE_2021,
                                                                            TRUE,
                                                                            FALSE)
   }
-  if(nchar(st_drop_geometry(GWB_CODE_2021_GGD_SOUTH_LIMBURG)[i, "GWB_CODE_2021"]) == 8) {
+  if (nchar(st_drop_geometry(GWB_CODE_2021_GGD_SOUTH_LIMBURG)[i, "GWB_CODE_2021"]) == 8) {
     GWB_CODE_2021_GGD_SOUTH_LIMBURG[i, "GGD_SOUTH_LIMBURG_2021"] <- ifelse(substr(st_drop_geometry(GWB_CODE_2021_GGD_SOUTH_LIMBURG)[i, "GWB_CODE_2021"], 1, 4)
                                                                            %in%
-                                                                             GGDG_2021_GGD_SOUTH_LIMBURG$G_CODE_2021,
+                                                                           GGDG_2021_GGD_SOUTH_LIMBURG$G_CODE_2021,
                                                                            TRUE,
                                                                            FALSE)
   }
