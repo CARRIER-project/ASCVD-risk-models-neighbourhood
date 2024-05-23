@@ -1207,7 +1207,7 @@ V_MALE_SDH_AUC <- Score(list(MALE_SDH_1,
                              MALE_SDH_6,
                              MALE_SDH_7,
                              MALE_SDH_8),
-                        formula = Hist(TIME, EVENT) ~ 1,
+                        mula = Hist(TIME, EVENT) ~ 1,
                         data = data.frame(TIME = DATA_V_MALE$TIME,
                                           EVENT = DATA_V_MALE$EVENT,
                                           AGE_STD = DATA_V_MALE$AGE_STD,
@@ -1247,7 +1247,7 @@ V_MALE_CSC_AUC <- Score(list(MALE_CSC_1,
                              MALE_CSC_6,
                              MALE_CSC_7,
                              MALE_CSC_8),
-                        formula = Hist(TIME, EVENT) ~ 1,
+                        mula = Hist(TIME, EVENT) ~ 1,
                         data = data.frame(TIME = DATA_V_MALE$TIME,
                                           EVENT = DATA_V_MALE$EVENT,
                                           AGE_STD = DATA_V_MALE$AGE_STD,
@@ -1287,7 +1287,7 @@ V_FEMALE_SDH_AUC <- Score(list(FEMALE_SDH_1,
                                FEMALE_SDH_6,
                                FEMALE_SDH_7,
                                FEMALE_SDH_8),
-                          formula = Hist(TIME, EVENT) ~ 1,
+                          mula = Hist(TIME, EVENT) ~ 1,
                           data = data.frame(TIME = DATA_V_FEMALE$TIME,
                                             EVENT = DATA_V_FEMALE$EVENT,
                                             AGE_STD = DATA_V_FEMALE$AGE_STD,
@@ -1327,7 +1327,7 @@ V_FEMALE_CSC_AUC <- Score(list(FEMALE_CSC_1,
                                FEMALE_CSC_6,
                                FEMALE_CSC_7,
                                FEMALE_CSC_8),
-                          formula = Hist(TIME, EVENT) ~ 1,
+                          mula = Hist(TIME, EVENT) ~ 1,
                           data = data.frame(TIME = DATA_V_FEMALE$TIME,
                                             EVENT = DATA_V_FEMALE$EVENT,
                                             AGE_STD = DATA_V_FEMALE$AGE_STD,
@@ -1377,7 +1377,7 @@ FIG_V_MALE_SDH_AUC <-
   scale_y_continuous(name = "AUROC",
                      limits = c(0.635, 0.665),
                      breaks = seq(0.64, 0.66, 0.01),
-                     labels = format(seq(0.64, 0.66, 0.01), digits = 3)) +
+                     labels = mat(seq(0.64, 0.66, 0.01), digits = 3)) +
   scale_colour_manual(name = "Model structure",
                       values = c("FGR" = "black",
                                  "FGR.1" = "green",
@@ -1416,7 +1416,7 @@ FIG_V_MALE_CSC_AUC <-
   scale_y_continuous(name = "AUROC",
                      limits = c(0.635, 0.665),
                      breaks = seq(0.64, 0.66, 0.01),
-                     labels = format(seq(0.64, 0.66, 0.01), digits = 3)) +
+                     labels = mat(seq(0.64, 0.66, 0.01), digits = 3)) +
   scale_colour_manual(name = "Model structure",
                       values = c("CauseSpecificCox" = "black",
                                  "CauseSpecificCox.1" = "green",
@@ -1455,7 +1455,7 @@ FIG_V_FEMALE_SDH_AUC <-
   scale_y_continuous(name = "AUROC",
                      limits = c(0.655, 0.685),
                      breaks = seq(0.66, 0.68, 0.01),
-                     labels = format(seq(0.66, 0.68, 0.01), digits = 3)) +  
+                     labels = mat(seq(0.66, 0.68, 0.01), digits = 3)) +  
   scale_colour_manual(name = "Model structure",
                       values = c("FGR" = "black",
                                  "FGR.1" = "green",
@@ -1495,7 +1495,7 @@ FIG_V_FEMALE_CSC_AUC <-
   scale_y_continuous(name = "AUROC",
                      limits = c(0.655, 0.685),
                      breaks = seq(0.64, 0.68, 0.01),
-                     labels = format(seq(0.64, 0.68, 0.01), digits = 3)) +
+                     labels = mat(seq(0.64, 0.68, 0.01), digits = 3)) +
   scale_colour_manual(name = "Model structure",
                       values = c("CauseSpecificCox" = "black",
                                  "CauseSpecificCox.1" = "green",
@@ -1549,7 +1549,7 @@ FIG_V_AUC_LEGEND <-
   scale_y_continuous(name = "AUROC",
                      limits = c(0.635, 0.665),
                      breaks = seq(0.64, 0.66, 0.01),
-                     labels = format(seq(0.64, 0.66, 0.01), digits = 3)) +
+                     labels = mat(seq(0.64, 0.66, 0.01), digits = 3)) +
   scale_colour_manual(name = "Model structure",
                       values = c("FGR" = "black",
                                  "FGR.1" = "green",
@@ -1597,8 +1597,8 @@ colnames(V_MALE_SDH_EO) <- c("STRUCTURE",
                              "TIME",
                              "MEAN_PRED_RISK",
                              "AJ")
-for(s in STRUCTURE) {
-  for (t in TIME) {
+ for (s in STRUCTURE) {
+   for (t in TIME) {
     TEMP_DATA <- data.frame(TIME = DATA_V_MALE$TIME,
                             EVENT = DATA_V_MALE$EVENT,
                             AGE_STD = DATA_V_MALE$AGE_STD,
@@ -1658,7 +1658,7 @@ colnames(V_MALE_CSC_EO) <- c("STRUCTURE",
                              "TIME",
                              "MEAN_PRED_RISK",
                              "AJ")
-for(s in STRUCTURE) {
+for (s in STRUCTURE) {
   for (t in TIME) {
     TEMP_DATA <- data.frame(TIME = DATA_V_MALE$TIME,
                             EVENT = DATA_V_MALE$EVENT,
@@ -1719,7 +1719,7 @@ colnames(V_FEMALE_SDH_EO) <- c("STRUCTURE",
                                "TIME",
                                "MEAN_PRED_RISK",
                                "AJ")
-for(s in STRUCTURE) {
+for (s in STRUCTURE) {
   for (t in TIME) {
     TEMP_DATA <- data.frame(TIME = DATA_V_FEMALE$TIME,
                             EVENT = DATA_V_FEMALE$EVENT,
@@ -1780,7 +1780,7 @@ colnames(V_FEMALE_CSC_EO) <- c("STRUCTURE",
                                "TIME",
                                "MEAN_PRED_RISK",
                                "AJ")
-for(s in STRUCTURE) {
+for (s in STRUCTURE) {
   for (t in TIME) {
     TEMP_DATA <- data.frame(TIME = DATA_V_FEMALE$TIME,
                             EVENT = DATA_V_FEMALE$EVENT,
@@ -3045,7 +3045,9 @@ DATA_FIG_V_MALE_CC_IMP_SDH_8_AUC <- rbind(DATA_FIG_V_MALE_CC_SDH_8_AUC,
                                           DATA_FIG_V_MALE_IMP_SDH_8_AUC)
 
 FIG_V_MALE_CC_IMP_SDH_8_AUC <- 
-  ggplot(DATA_FIG_V_MALE_CC_IMP_SDH_8_AUC, aes(x = TIME, y = AUC, linetype = as.factor(CC_IMP))) +
+  ggplot(DATA_FIG_V_MALE_CC_IMP_SDH_8_AUC, aes(x = TIME, 
+                                               y = AUC, 
+                                               linetype = as.factor(CC_IMP))) +
   geom_line(colour = "violet") +
   scale_x_continuous(name = "Time in years",
                      limits = c(1, 4),
@@ -3079,7 +3081,9 @@ DATA_FIG_V_FEMALE_CC_IMP_SDH_4_AUC <- rbind(DATA_FIG_V_FEMALE_CC_SDH_4_AUC,
                                             DATA_FIG_V_FEMALE_IMP_SDH_4_AUC)
 
 FIG_V_FEMALE_CC_IMP_SDH_4_AUC <- 
-  ggplot(DATA_FIG_V_FEMALE_CC_IMP_SDH_4_AUC, aes(x = TIME, y = AUC, linetype = as.factor(CC_IMP))) +
+  ggplot(DATA_FIG_V_FEMALE_CC_IMP_SDH_4_AUC, aes(x = TIME, 
+                                                 y = AUC, 
+                                                 linetype = as.factor(CC_IMP))) +
   geom_line(colour = "orange") +
   scale_x_continuous(name = "Time in years",
                      limits = c(1, 4),
@@ -3110,7 +3114,9 @@ FIG_V_CC_IMP_AUC_WO_LEGEND
 # FIG_V_CC_IMP_AUC_LEGEND
 
 FIG_V_CC_IMP_AUC_LEGEND <- 
-  ggplot(DATA_FIG_V_MALE_CC_IMP_SDH_8_AUC, aes(x = TIME, y = AUC, linetype = as.factor(CC_IMP))) +
+  ggplot(DATA_FIG_V_MALE_CC_IMP_SDH_8_AUC, aes(x = TIME, 
+                                               y = AUC, 
+                                               linetype = as.factor(CC_IMP))) +
   geom_line() +
   scale_x_continuous(name = "Time in years",
                      limits = c(1, 4),
@@ -3356,17 +3362,17 @@ FIG_V_MALE_CC_IMP_SDH_8_EO <-
              size = 2,
              fill = "violet") +
   geom_point(data = subset(DATA_FIG_V_MALE_CC_IMP_SDH_8_EO, TIME == 2), aes(x = MEAN_PRED_RISK, 
-                                                          y = AJ),
+                                                                            y = AJ),
              shape = 23,
              size = 2,
              fill = "violet") +
   geom_point(data = subset(DATA_FIG_V_MALE_CC_IMP_SDH_8_EO, TIME == 3), aes(x = MEAN_PRED_RISK, 
-                                                          y = AJ),
+                                                                            y = AJ),
              shape = 23,
              size = 2,
              fill = "violet") +
   geom_point(data = subset(DATA_FIG_V_MALE_CC_IMP_SDH_8_EO, TIME == 4), aes(x = MEAN_PRED_RISK, 
-                                                          y = AJ),
+                                                                            y = AJ),
              shape = 23,
              size = 2,
              fill = "violet") +
