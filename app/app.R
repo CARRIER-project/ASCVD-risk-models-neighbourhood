@@ -346,11 +346,11 @@ server <- function(input, output, session) {
                          server = TRUE)
 
     output$TEXT_RISK <- renderText({
-        if((!isTruthy(input$AGE)) | (!isTruthy(input$MALE)) | (!isTruthy(input$PC6) | (!c(input$PC6 %in% DATA$PC6_2021)) |
-           (input$AGE < 40) | (input$AGE >= 70))) {
+        if ((!isTruthy(input$AGE)) | (!isTruthy(input$MALE)) | (!isTruthy(input$PC6) | (!c(input$PC6 %in% DATA$PC6_2021)) |
+            (input$AGE < 40) | (input$AGE >= 70))) {
             return("Please submit the requested information.") 
         } else {
-            if(input$MALE == 1) {
+            if (input$MALE == 1) {
                 RISK <- MALE_SDH_8_FUNCTION(AGE = reactive({ return(input$AGE) })(),
                                             WEALTH_IMP = reactive({ return(mean(subset(DATA, PC6_2021 == input$PC6)$WEALTH_2014_IMP)) })(),
                                             EDUCATION_LOW_IMP = reactive({ return(mean(subset(DATA, PC6_2021 == input$PC6)$EDUCATION_LOW_2014_IMP)) })(),
@@ -375,11 +375,11 @@ server <- function(input, output, session) {
     })
     
     output$TEXT_COMPARISON <- renderText({
-        if((!isTruthy(input$AGE)) | (!isTruthy(input$MALE)) | (!isTruthy(input$PC6) | (!c(input$PC6 %in% DATA$PC6_2021)) |
+        if ((!isTruthy(input$AGE)) | (!isTruthy(input$MALE)) | (!isTruthy(input$PC6) | (!c(input$PC6 %in% DATA$PC6_2021)) |
            (input$AGE < 40) | (input$AGE >= 70))) {
             return(NULL) 
         } else {
-            if(input$MALE == 1) {
+            if (input$MALE == 1) {
                 RISK <- MALE_SDH_8_FUNCTION(AGE = reactive({ return(input$AGE) })(),
                                             WEALTH_IMP = reactive({ return(mean(subset(DATA, PC6_2021 == input$PC6)$WEALTH_2014_IMP)) })(),
                                             EDUCATION_LOW_IMP = reactive({ return(mean(subset(DATA, PC6_2021 == input$PC6)$EDUCATION_LOW_2014_IMP)) })(),
@@ -408,9 +408,9 @@ server <- function(input, output, session) {
                 
                 RISK_DIVIDED_BY_MIN_RISK <- RISK / MIN_RISK
                 
-                if(RISK_DIVIDED_BY_MIN_RISK == 1) {
+                if (RISK_DIVIDED_BY_MIN_RISK == 1) {
                     return(paste(" This is the lowest possible risk of a male of this age.")) 
-                    } else if(RISK_DIVIDED_BY_MIN_RISK  <= 1.05) {
+                    } else if (RISK_DIVIDED_BY_MIN_RISK  <= 1.05) {
                         return(paste(" This is similar to the risk of a male of the same age living in the neighbourhood with the lowest risk.")) 
                         } else {
                             return(paste("This is", format(round(RISK_DIVIDED_BY_MIN_RISK, digits = 2), nsmall = 2), "times the risk of a male of the same age living in the neighbourhood with the lowest risk."))
@@ -443,9 +443,9 @@ server <- function(input, output, session) {
                     
                     RISK_DIVIDED_BY_MIN_RISK <- RISK / MIN_RISK
                     
-                    if(RISK_DIVIDED_BY_MIN_RISK == 1) {
+                    if (RISK_DIVIDED_BY_MIN_RISK == 1) {
                         return(paste(" This is the lowest possible risk of a female of this age."))
-                    } else if(RISK_DIVIDED_BY_MIN_RISK <= 1.05){
+                    } else if (RISK_DIVIDED_BY_MIN_RISK <= 1.05) {
                         return(paste(" This is similar to the risk of a female of the same age living in the neighbourhood with the lowest risk.")) 
                     } else {
                         return(paste("This is", format(round(RISK_DIVIDED_BY_MIN_RISK, digits = 2), nsmall = 2), "times the risk of a female of the same age living in the neighbourhood with the lowest risk."))
@@ -455,12 +455,12 @@ server <- function(input, output, session) {
     })
     
     output$TEXT_IMP <- renderText({
-        if((!isTruthy(input$AGE)) | (!isTruthy(input$MALE)) | (!isTruthy(input$PC6) | (!c(input$PC6 %in% DATA$PC6_2021)) |
-           (input$AGE < 40) | (input$AGE >= 70))) {
+        if ((!isTruthy(input$AGE)) | (!isTruthy(input$MALE)) | (!isTruthy(input$PC6) | (!c(input$PC6 %in% DATA$PC6_2021)) |
+            (input$AGE < 40) | (input$AGE >= 70))) {
             return(NULL)
         } else {
             N_IMP <- reactive({ return(sum(is.na(subset(DATA, PC6_2021 == input$PC6)$WEALTH_2014))) })
-            if(N_IMP() == 0) {
+            if (N_IMP() == 0) {
                 return(NULL)
             } else {
                 return("Please note imputed values concerning the neighbourhood characteristics were used.")
@@ -469,8 +469,8 @@ server <- function(input, output, session) {
     })
     
     output$MAP <- renderPlot({
-        if(isTruthy(input$AGE) & isTruthy(input$MALE) & isTruthy(input$PC6) & (input$PC6 %in% DATA$PC6_2021) 
-           & (input$AGE >= 40) & (input$AGE < 70)) { 
+        if (isTruthy(input$AGE) & isTruthy(input$MALE) & isTruthy(input$PC6) & (input$PC6 %in% DATA$PC6_2021) 
+            & (input$AGE >= 40) & (input$AGE < 70)) { 
             GWB_CODE_2021_SELECTED <- reactive({ return(subset(DATA, PC6_2021 == input$PC6)$GWB_CODE_2021) })
             G_NAME_2021_SELECTED <- reactive({ return(subset(DATA, PC6_2021 == input$PC6)$G_NAME_2021) })
             GWB_CODE_2021_GGD_SOUTH_LIMBURG$SELECTED <- ifelse(GWB_CODE_2021_GGD_SOUTH_LIMBURG$GWB_CODE_2021 %in% subset(DATA, G_NAME_2021 == G_NAME_2021_SELECTED()[1])$GWB_CODE_2021,
@@ -480,7 +480,7 @@ server <- function(input, output, session) {
                                                                "B",
                                                                GWB_CODE_2021_GGD_SOUTH_LIMBURG$SELECTED)
             
-            if(G_NAME_2021_SELECTED()[1] %in% G_NAME_2021_X_Y$G_NAME_2021){
+            if (G_NAME_2021_SELECTED()[1] %in% G_NAME_2021_X_Y$G_NAME_2021) {
                 MAP <- 
                     ggplot() +
                     geom_sf(data = GWB_CODE_2021_GGD_SOUTH_LIMBURG, aes(fill = as.factor(GWB_CODE_2021_GGD_SOUTH_LIMBURG$SELECTED))) +
