@@ -60,7 +60,7 @@ GWB_CODE_2021_GGD_SOUTH_LIMBURG$GWB_CODE_2021 <- as.factor(GWB_CODE_2021_GGD_SOU
 
 st_write(...)
 
-# Creating objects average and percentile PM25 per GWB-code in 2021 per year for GGD South-Limburg ----
+# Creating objects PM25 indicators per GWB-code in 2021 per year for GGD South-Limburg ----
 
 ## 2014 ----
 
