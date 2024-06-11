@@ -32,7 +32,7 @@ GW_CODE_2021_WEALTH_2014 <- subset(WEALTH20142019,
 colnames(GW_CODE_2021_WEALTH_2014)[1] <- "GW_CODE_2021"
 colnames(GW_CODE_2021_WEALTH_2014)[4] <- "WEALTH_2014"
 for (i in 1:nrow(GWB_CODE_2021_WEALTH_2014)) {
-  if(is.na(GWB_CODE_2021_WEALTH_2014[i, "WEALTH_2014_IMP"])) {
+  if (is.na(GWB_CODE_2021_WEALTH_2014[i, "WEALTH_2014_IMP"])) {
     GWB_CODE_2021_WEALTH_2014[i, "WEALTH_2014_IMP"] <- subset(GW_CODE_2021_WEALTH_2014,
                                                               substr(GW_CODE_2021, 3, 8) 
                                                               == 
@@ -49,7 +49,7 @@ G_CODE_2021_WEALTH_2014 <- subset(WEALTH20142019,
 colnames(G_CODE_2021_WEALTH_2014)[1] <- "G_CODE_2021"
 colnames(G_CODE_2021_WEALTH_2014)[4] <- "WEALTH_2014"
 for (i in 1:nrow(GWB_CODE_2021_WEALTH_2014)) {
-  if(is.na(GWB_CODE_2021_WEALTH_2014[i, "WEALTH_2014_IMP"])) {
+  if (is.na(GWB_CODE_2021_WEALTH_2014[i, "WEALTH_2014_IMP"])) {
     GWB_CODE_2021_WEALTH_2014[i, "WEALTH_2014_IMP"] <- subset(G_CODE_2021_WEALTH_2014,
                                                               substr(G_CODE_2021, 3, 6) 
                                                               == 
@@ -86,7 +86,7 @@ GW_CODE_2021_WEALTH_2015 <- subset(WEALTH20142019,
 colnames(GW_CODE_2021_WEALTH_2015)[1] <- "GW_CODE_2021"
 colnames(GW_CODE_2021_WEALTH_2015)[4] <- "WEALTH_2015"
 for (i in 1:nrow(GWB_CODE_2021_WEALTH_2015)) {
-  if(is.na(GWB_CODE_2021_WEALTH_2015[i, "WEALTH_2015_IMP"])) {
+  if (is.na(GWB_CODE_2021_WEALTH_2015[i, "WEALTH_2015_IMP"])) {
     GWB_CODE_2021_WEALTH_2015[i, "WEALTH_2015_IMP"] <- subset(GW_CODE_2021_WEALTH_2015,
                                                               substr(GW_CODE_2021, 3, 8) 
                                                               == 
@@ -103,7 +103,7 @@ G_CODE_2021_WEALTH_2015 <- subset(WEALTH20142019,
 colnames(G_CODE_2021_WEALTH_2015)[1] <- "G_CODE_2021"
 colnames(G_CODE_2021_WEALTH_2015)[4] <- "WEALTH_2015"
 for (i in 1:nrow(GWB_CODE_2021_WEALTH_2015)) {
-  if(is.na(GWB_CODE_2021_WEALTH_2015[i, "WEALTH_2015_IMP"])) {
+  if (is.na(GWB_CODE_2021_WEALTH_2015[i, "WEALTH_2015_IMP"])) {
     GWB_CODE_2021_WEALTH_2015[i, "WEALTH_2015_IMP"] <- subset(G_CODE_2021_WEALTH_2015,
                                                               substr(G_CODE_2021, 3, 6) 
                                                               == 
@@ -161,19 +161,19 @@ colnames(GW_CODE_2021_EDUCATION_2014)[4] <- "EDUCATION_LOW_2014"
 colnames(GW_CODE_2021_EDUCATION_2014)[5] <- "EDUCATION_INTERMEDIATE_2014"
 colnames(GW_CODE_2021_EDUCATION_2014)[6] <- "EDUCATION_HIGH_2014"
 for (i in 1:nrow(GWB_CODE_2021_EDUCATION_2014)) {
-  if(is.na(GWB_CODE_2021_EDUCATION_2014[i, "EDUCATION_LOW_2014_IMP"])) {
+  if (is.na(GWB_CODE_2021_EDUCATION_2014[i, "EDUCATION_LOW_2014_IMP"])) {
     GWB_CODE_2021_EDUCATION_2014[i, "EDUCATION_LOW_2014_IMP"] <- subset(GW_CODE_2021_EDUCATION_2014,
                                                                         substr(GW_CODE_2021, 3, 8) 
                                                                         == 
                                                                         substr(GWB_CODE_2021_EDUCATION_2014[i, "GWB_CODE_2021"], 3, 8))[, "EDUCATION_LOW_2014"]
   }
-  if(is.na(GWB_CODE_2021_EDUCATION_2014[i, "EDUCATION_INTERMEDIATE_2014_IMP"])) {
+  if (is.na(GWB_CODE_2021_EDUCATION_2014[i, "EDUCATION_INTERMEDIATE_2014_IMP"])) {
     GWB_CODE_2021_EDUCATION_2014[i, "EDUCATION_INTERMEDIATE_2014_IMP"] <- subset(GW_CODE_2021_EDUCATION_2014,
                                                                                  substr(GW_CODE_2021, 3, 8) 
                                                                                  == 
                                                                                  substr(GWB_CODE_2021_EDUCATION_2014[i, "GWB_CODE_2021"], 3, 8))[, "EDUCATION_INTERMEDIATE_2014"]
   }
-  if(is.na(GWB_CODE_2021_EDUCATION_2014[i, "EDUCATION_HIGH_2014_IMP"])) {
+  if (is.na(GWB_CODE_2021_EDUCATION_2014[i, "EDUCATION_HIGH_2014_IMP"])) {
     GWB_CODE_2021_EDUCATION_2014[i, "EDUCATION_HIGH_2014_IMP"] <- subset(GW_CODE_2021_EDUCATION_2014,
                                                                          substr(GW_CODE_2021, 3, 8) 
                                                                          == 
@@ -194,19 +194,19 @@ colnames(G_CODE_2021_EDUCATION_2014)[4] <- "EDUCATION_LOW_2014"
 colnames(G_CODE_2021_EDUCATION_2014)[5] <- "EDUCATION_INTERMEDIATE_2014"
 colnames(G_CODE_2021_EDUCATION_2014)[6] <- "EDUCATION_HIGH_2014"
 for (i in 1:nrow(GWB_CODE_2021_EDUCATION_2014)) {
-  if(is.na(GWB_CODE_2021_EDUCATION_2014[i, "EDUCATION_LOW_2014_IMP"])) {
+  if (is.na(GWB_CODE_2021_EDUCATION_2014[i, "EDUCATION_LOW_2014_IMP"])) {
     GWB_CODE_2021_EDUCATION_2014[i, "EDUCATION_LOW_2014_IMP"] <- subset(G_CODE_2021_EDUCATION_2014,
                                                                         substr(G_CODE_2021, 3, 6) 
                                                                         == 
                                                                         substr(GWB_CODE_2021_EDUCATION_2014[i, "GWB_CODE_2021"], 3, 6))[, "EDUCATION_LOW_2014"]
   }
-  if(is.na(GWB_CODE_2021_EDUCATION_2014[i, "EDUCATION_INTERMEDIATE_2014_IMP"])) {
+  if (is.na(GWB_CODE_2021_EDUCATION_2014[i, "EDUCATION_INTERMEDIATE_2014_IMP"])) {
     GWB_CODE_2021_EDUCATION_2014[i, "EDUCATION_INTERMEDIATE_2014_IMP"] <- subset(G_CODE_2021_EDUCATION_2014,
                                                                                  substr(G_CODE_2021, 3, 6) 
                                                                                  == 
                                                                                  substr(GWB_CODE_2021_EDUCATION_2014[i, "GWB_CODE_2021"], 3, 6))[, "EDUCATION_INTERMEDIATE_2014"]
   }
-  if(is.na(GWB_CODE_2021_EDUCATION_2014[i, "EDUCATION_HIGH_2014_IMP"])) {
+  if (is.na(GWB_CODE_2021_EDUCATION_2014[i, "EDUCATION_HIGH_2014_IMP"])) {
     GWB_CODE_2021_EDUCATION_2014[i, "EDUCATION_HIGH_2014_IMP"] <- subset(G_CODE_2021_EDUCATION_2014,
                                                                          substr(G_CODE_2021, 3, 6) 
                                                                          == 
@@ -275,19 +275,19 @@ colnames(GW_CODE_2021_EDUCATION_2015)[4] <- "EDUCATION_LOW_2015"
 colnames(GW_CODE_2021_EDUCATION_2015)[5] <- "EDUCATION_INTERMEDIATE_2015"
 colnames(GW_CODE_2021_EDUCATION_2015)[6] <- "EDUCATION_HIGH_2015"
 for (i in 1:nrow(GWB_CODE_2021_EDUCATION_2015)) {
-  if(is.na(GWB_CODE_2021_EDUCATION_2015[i, "EDUCATION_LOW_2015_IMP"])) {
+  if (is.na(GWB_CODE_2021_EDUCATION_2015[i, "EDUCATION_LOW_2015_IMP"])) {
     GWB_CODE_2021_EDUCATION_2015[i, "EDUCATION_LOW_2015_IMP"] <- subset(GW_CODE_2021_EDUCATION_2015,
                                                                         substr(GW_CODE_2021, 3, 8) 
                                                                         == 
                                                                         substr(GWB_CODE_2021_EDUCATION_2015[i, "GWB_CODE_2021"], 3, 8))[, "EDUCATION_LOW_2015"]
   }
-  if(is.na(GWB_CODE_2021_EDUCATION_2015[i, "EDUCATION_INTERMEDIATE_2015_IMP"])) {
+  if (is.na(GWB_CODE_2021_EDUCATION_2015[i, "EDUCATION_INTERMEDIATE_2015_IMP"])) {
     GWB_CODE_2021_EDUCATION_2015[i, "EDUCATION_INTERMEDIATE_2015_IMP"] <- subset(GW_CODE_2021_EDUCATION_2015,
                                                                                  substr(GW_CODE_2021, 3, 8) 
                                                                                  == 
                                                                                  substr(GWB_CODE_2021_EDUCATION_2015[i, "GWB_CODE_2021"], 3, 8))[, "EDUCATION_INTERMEDIATE_2015"]
   }
-  if(is.na(GWB_CODE_2021_EDUCATION_2015[i, "EDUCATION_HIGH_2015_IMP"])) {
+  if (is.na(GWB_CODE_2021_EDUCATION_2015[i, "EDUCATION_HIGH_2015_IMP"])) {
     GWB_CODE_2021_EDUCATION_2015[i, "EDUCATION_HIGH_2015_IMP"] <- subset(GW_CODE_2021_EDUCATION_2015,
                                                                          substr(GW_CODE_2021, 3, 8) 
                                                                          == 
@@ -308,19 +308,19 @@ colnames(G_CODE_2021_EDUCATION_2015)[4] <- "EDUCATION_LOW_2015"
 colnames(G_CODE_2021_EDUCATION_2015)[5] <- "EDUCATION_INTERMEDIATE_2015"
 colnames(G_CODE_2021_EDUCATION_2015)[6] <- "EDUCATION_HIGH_2015"
 for (i in 1:nrow(GWB_CODE_2021_EDUCATION_2015)) {
-  if(is.na(GWB_CODE_2021_EDUCATION_2015[i, "EDUCATION_LOW_2015_IMP"])) {
+  if (is.na(GWB_CODE_2021_EDUCATION_2015[i, "EDUCATION_LOW_2015_IMP"])) {
     GWB_CODE_2021_EDUCATION_2015[i, "EDUCATION_LOW_2015_IMP"] <- subset(G_CODE_2021_EDUCATION_2015,
                                                                         substr(G_CODE_2021, 3, 6) 
                                                                         == 
                                                                         substr(GWB_CODE_2021_EDUCATION_2015[i, "GWB_CODE_2021"], 3, 6))[, "EDUCATION_LOW_2015"]
   }
-  if(is.na(GWB_CODE_2021_EDUCATION_2015[i, "EDUCATION_INTERMEDIATE_2015_IMP"])) {
+  if (is.na(GWB_CODE_2021_EDUCATION_2015[i, "EDUCATION_INTERMEDIATE_2015_IMP"])) {
     GWB_CODE_2021_EDUCATION_2015[i, "EDUCATION_INTERMEDIATE_2015_IMP"] <- subset(G_CODE_2021_EDUCATION_2015,
                                                                                  substr(G_CODE_2021, 3, 6) 
                                                                                  == 
                                                                                  substr(GWB_CODE_2021_EDUCATION_2015[i, "GWB_CODE_2021"], 3, 6))[, "EDUCATION_INTERMEDIATE_2015"]
   }
-  if(is.na(GWB_CODE_2021_EDUCATION_2015[i, "EDUCATION_HIGH_2015_IMP"])) {
+  if (is.na(GWB_CODE_2021_EDUCATION_2015[i, "EDUCATION_HIGH_2015_IMP"])) {
     GWB_CODE_2021_EDUCATION_2015[i, "EDUCATION_HIGH_2015_IMP"] <- subset(G_CODE_2021_EDUCATION_2015,
                                                                          substr(G_CODE_2021, 3, 6) 
                                                                          == 
