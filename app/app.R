@@ -274,9 +274,7 @@ ui <- fluidPage(
       wellPanel(
         h5(strong("Please enter the following information")),
         numericInput("AGE", 
-                     label = HTML("<b> Age </b> 
-                                           <br/> 
-                                           Please enter a value between 40 and 70 (excl.) years."), 
+                     label = HTML("<b>Age</b><br/>Please enter a value between 40 and 70 (excl.) years."), 
                      value = NA,
                      min = 40,
                      max = 70),
@@ -286,9 +284,7 @@ ui <- fluidPage(
                                     "Female" = 0),
                      selected = NA),
         selectizeInput("PC6",
-                       label = HTML("<b> Postal code </b> 
-                                             <br/> 
-                                             If the postal code links to multiple neighbourhoods, the average of the neighbourhoods is calculated."),
+                       label = HTML("<b>Postal code</b><br/>If the postal code links to multiple neighbourhoods, the average of the neighbourhoods is calculated."),
                        choices = NULL,
                        size = 3,
                        options = list(create = TRUE,
@@ -310,219 +306,236 @@ ui <- fluidPage(
     column(
       width = 4,
       plotOutput("MAP")
-    ),
-    HTML("<i> Please note further research is needed before implementing this model in clinical practice. </i>
-              <br/>
-              <i> To enhance data protection, please download the source code <a href = https://github.com/CARRIER-project/ASCVD-risk-models-neighbourhood/tree/main/app> here</a> and run the app locally. </i>
-              <br/>
-              <br/>
-              <i> DISCLAIMER: THE AUTHORS WAIVE RESPONSIBILITY FOR ANY HARMS CAUSED BY THE USE OF THIS MODEL, SOFTWARE, OR WEBSITE. </i> 
-              <br/>")
-  )
+    )
+  ),
+  HTML("<i>Please note further research is needed before implementing this model in clinical practice.
+        <br/>To enhance data protection, please download the source code <a href = https://github.com/CARRIER-project/ASCVD-risk-models-neighbourhood/tree/main/app> here</a> and run the app locally.
+        <br/>
+        <br/>DISCLAIMER: THE AUTHORS WAIVE RESPONSIBILITY FOR ANY HARMS CAUSED BY THE USE OF THIS MODEL, SOFTWARE, OR WEBSITE.</i> 
+        <br/>
+        <br/>")
 )
-
+  
 # Server ----
 
 server <- function(input, output, session) {
-  updateSelectizeInput(session,
-                       "PC6",
-                       choices = DATA$PC6_2021,
-                       selected = NA,
-                       server = TRUE)
-  
-  output$TEXT_RISK <- renderText({
-    if ((!isTruthy(input$AGE)) 
-        | 
-        (input$AGE < 40)
-        | 
-        (input$AGE >= 70)
-        |
-        (!isTruthy(input$MALE)) 
-        | 
-        (!isTruthy(input$PC6)) 
-        | 
-        (!c(input$PC6 %in% DATA$PC6_2021))) {
-      return("Please submit the requested information.") 
-    } else if (input$MALE == 1) {
-      RISK <- MALE_SDH_8_FUNCTION(AGE = reactive({ return(input$AGE) })(),
-                                  WEALTH_IMP = reactive({ return(mean(subset(DATA, PC6_2021 == input$PC6)$WEALTH_2014_IMP)) })(),
-                                  PC_EDUCATION_LOW_IMP = reactive({ return(mean(subset(DATA, PC6_2021 == input$PC6)$PC_EDUCATION_LOW_2014_IMP)) })(),
-                                  PC_EDUCATION_INTERMEDIATE_IMP = reactive({ return(mean(subset(DATA, PC6_2021 == input$PC6)$PC_EDUCATION_INTERMEDIATE_2014_IMP)) })(),
-                                  PC_EDUCATION_HIGH_IMP = reactive({ return(mean(subset(DATA, PC6_2021 == input$PC6)$PC_EDUCATION_HIGH_2014_IMP)) })(),
-                                  PC_PM25 = reactive({ return(mean(subset(DATA, PC6_2021 == input$PC6)$PC_PM25_2014)) })())
+    updateSelectizeInput(session,
+                         "PC6",
+                         choices = DATA$PC6_2021,
+                         selected = NA,
+                         server = TRUE)
+
+    output$TEXT_RISK <- renderText({
+        if ((!isTruthy(input$AGE)) 
+            | 
+            (input$AGE < 40)
+            | 
+            (input$AGE >= 70)
+            |
+            (!isTruthy(input$MALE)) 
+            | 
+            (!isTruthy(input$PC6)) 
+            | 
+            (!c(input$PC6 %in% DATA$PC6_2021))) {
+            return("Please submit the requested information.") 
+        } else if (input$MALE == 1) {
+            RISK <- MALE_SDH_8_FUNCTION(AGE = reactive({ return(input$AGE) })(),
+                                        WEALTH_IMP = reactive({ return(mean(subset(DATA, PC6_2021 == input$PC6)$WEALTH_2014_IMP)) })(),
+                                        PC_EDUCATION_LOW_IMP = reactive({ return(mean(subset(DATA, PC6_2021 == input$PC6)$PC_EDUCATION_LOW_2014_IMP)) })(),
+                                        PC_EDUCATION_INTERMEDIATE_IMP = reactive({ return(mean(subset(DATA, PC6_2021 == input$PC6)$PC_EDUCATION_INTERMEDIATE_2014_IMP)) })(),
+                                        PC_EDUCATION_HIGH_IMP = reactive({ return(mean(subset(DATA, PC6_2021 == input$PC6)$PC_EDUCATION_HIGH_2014_IMP)) })(),
+                                        PC_PM25 = reactive({ return(mean(subset(DATA, PC6_2021 == input$PC6)$PC_PM25_2014)) })())
+            
+            TEXT_RISK <- paste("The estimated 4-year atherosclerotic cardiovascular disease risk is <b style = 'color:#e74c3c'>", paste0(paste0(format(round(RISK * 100, digits = 2), nsmall = 2), "%"), "</b>."))
+            
+            return(TEXT_RISK)
+        } else {
+            RISK <- FEMALE_SDH_4_FUNCTION(AGE = reactive({ return(input$AGE) })(),
+                                          WEALTH_IMP = reactive({ return(mean(subset(DATA, PC6_2021 == input$PC6)$WEALTH_2014_IMP)) })(),
+                                          PC_EDUCATION_LOW_IMP = reactive({ return(mean(subset(DATA, PC6_2021 == input$PC6)$PC_EDUCATION_LOW_2014_IMP)) })(),
+                                          PC_EDUCATION_INTERMEDIATE_IMP = reactive({ return(mean(subset(DATA, PC6_2021 == input$PC6)$PC_EDUCATION_INTERMEDIATE_2014_IMP)) })(),
+                                          PC_EDUCATION_HIGH_IMP = reactive({ return(mean(subset(DATA, PC6_2021 == input$PC6)$PC_EDUCATION_HIGH_2014_IMP)) })(),
+                                          PC_PM25 = reactive({ return(mean(subset(DATA, PC6_2021 == input$PC6)$PC_PM25_2014)) })())
+            
+            TEXT_RISK <- paste("The estimated 4-year atherosclerotic cardiovascular disease risk is <b style = 'color:#e74c3c'>", paste0(paste0(format(round(RISK * 100, digits = 2), nsmall = 2), "%"), "</b>."))
+            
+            return(TEXT_RISK)
+        }
+    })
+    
+    output$TEXT_COMPARISON <- renderText({
+        if ((!isTruthy(input$AGE)) 
+            | 
+            (input$AGE < 40)
+            | 
+            (input$AGE >= 70)
+            |
+            (!isTruthy(input$MALE)) 
+            | 
+            (!isTruthy(input$PC6)) 
+            | 
+            (!c(input$PC6 %in% DATA$PC6_2021))) {
+            return(NULL) 
+        } else if (input$MALE == 1) {
+            RISK <- MALE_SDH_8_FUNCTION(AGE = reactive({ return(input$AGE) })(),
+                                        WEALTH_IMP = reactive({ return(mean(subset(DATA, PC6_2021 == input$PC6)$WEALTH_2014_IMP)) })(),
+                                        PC_EDUCATION_LOW_IMP = reactive({ return(mean(subset(DATA, PC6_2021 == input$PC6)$PC_EDUCATION_LOW_2014_IMP)) })(),
+                                        PC_EDUCATION_INTERMEDIATE_IMP = reactive({ return(mean(subset(DATA, PC6_2021 == input$PC6)$PC_EDUCATION_INTERMEDIATE_2014_IMP)) })(),
+                                        PC_EDUCATION_HIGH_IMP = reactive({ return(mean(subset(DATA, PC6_2021 == input$PC6)$PC_EDUCATION_HIGH_2014_IMP)) })(),
+                                        PC_PM25 = reactive({ return(mean(subset(DATA, PC6_2021 == input$PC6)$PC_PM25_2014)) })())
+            
+            TEMP <- DATA[, c("GWB_CODE_2021",
+                             "WEALTH_2014_IMP",
+                             "PC_EDUCATION_LOW_2014_IMP",
+                             "PC_EDUCATION_INTERMEDIATE_2014_IMP",
+                             "PC_EDUCATION_HIGH_2014_IMP",
+                             "PC_PM25_2014")]
+            TEMP$AGE <- reactive({ return(input$AGE) })()
+            
+            TEMP$RISK <- MALE_SDH_8_FUNCTION(AGE = TEMP$AGE,
+                                             WEALTH_IMP = TEMP$WEALTH_2014_IMP,
+                                             PC_EDUCATION_LOW_IMP = TEMP$PC_EDUCATION_LOW_2014_IMP,
+                                             PC_EDUCATION_INTERMEDIATE_IMP = TEMP$PC_EDUCATION_INTERMEDIATE_2014_IMP,
+                                             PC_EDUCATION_HIGH_IMP = TEMP$PC_EDUCATION_HIGH_2014_IMP,
+                                             PC_PM25 = TEMP$PC_PM25_2014)
+            
+            MIN_RISK <- min(TEMP$RISK)
+            
+            RISK_DIVIDED_BY_MIN_RISK <- RISK / MIN_RISK
+            
+            if (RISK_DIVIDED_BY_MIN_RISK == 1) {
+              TEXT_COMPARISON <- paste(" This is the lowest possible risk of a male of this age.") 
+              
+              return(TEXT_COMPARISON) 
+              } else if (RISK_DIVIDED_BY_MIN_RISK  <= 1.05) {
+                TEXT_COMPARISON <- paste(" This is similar to the risk of a male of the same age living in the neighbourhood with the lowest risk.")
+                
+                return(TEXT_COMPARISON) 
+                } else {
+                  TEXT_COMPARISON <- paste("This is", format(round(RISK_DIVIDED_BY_MIN_RISK, digits = 2), nsmall = 2), "times the risk of a male of the same age living in the neighbourhood with the lowest risk.")
+                  
+                  return(TEXT_COMPARISON)
+                  } 
+        } else {
+          RISK <- FEMALE_SDH_4_FUNCTION(AGE = reactive({ return(input$AGE) })(),
+                                        WEALTH_IMP = reactive({ return(mean(subset(DATA, PC6_2021 == input$PC6)$WEALTH_2014_IMP)) })(),
+                                        PC_EDUCATION_LOW_IMP = reactive({ return(mean(subset(DATA, PC6_2021 == input$PC6)$PC_EDUCATION_LOW_2014_IMP)) })(),
+                                        PC_EDUCATION_INTERMEDIATE_IMP = reactive({ return(mean(subset(DATA, PC6_2021 == input$PC6)$PC_EDUCATION_INTERMEDIATE_2014_IMP)) })(),
+                                        PC_EDUCATION_HIGH_IMP = reactive({ return(mean(subset(DATA, PC6_2021 == input$PC6)$PC_EDUCATION_HIGH_2014_IMP)) })(),
+                                        PC_PM25 = reactive({ return(mean(subset(DATA, PC6_2021 == input$PC6)$PC_PM25_2014)) })())
+          TEMP <- DATA[, c("GWB_CODE_2021",
+                           "WEALTH_2014_IMP",
+                           "PC_EDUCATION_LOW_2014_IMP",
+                           "PC_EDUCATION_INTERMEDIATE_2014_IMP",
+                           "PC_EDUCATION_HIGH_2014_IMP",
+                           "PC_PM25_2014")]
+          TEMP$AGE <- reactive({ return(input$AGE) })()
+          
+          TEMP$RISK <- FEMALE_SDH_4_FUNCTION(AGE = TEMP$AGE,
+                                             WEALTH_IMP = TEMP$WEALTH_2014_IMP,
+                                             PC_EDUCATION_LOW_IMP = TEMP$PC_EDUCATION_LOW_2014_IMP,
+                                             PC_EDUCATION_INTERMEDIATE_IMP = TEMP$PC_EDUCATION_INTERMEDIATE_2014_IMP,
+                                             PC_EDUCATION_HIGH_IMP = TEMP$PC_EDUCATION_HIGH_2014_IMP,
+                                             PC_PM25 = TEMP$PC_PM25_2014)
+          
+          MIN_RISK <- min(TEMP$RISK)
+          
+          RISK_DIVIDED_BY_MIN_RISK <- RISK / MIN_RISK
+          
+          if(RISK_DIVIDED_BY_MIN_RISK == 1) {
+            TEXT_COMPARISON <- paste(" This is the lowest possible risk of a female of this age.")
+            
+            return(TEXT_COMPARISON)
+          } else if(RISK_DIVIDED_BY_MIN_RISK <= 1.05) {
+            TEXT_COMPARISON <- paste(" This is similar to the risk of a female of the same age living in the neighbourhood with the lowest risk.")
+            
+            return(TEXT_COMPARISON) 
+          } else {
+            TEXT_COMPARISON <- paste("This is", format(round(RISK_DIVIDED_BY_MIN_RISK, digits = 2), nsmall = 2), "times the risk of a female of the same age living in the neighbourhood with the lowest risk.")
+            
+            return(TEXT_COMPARISON)
+          }                
+        }
+    })
       
-      return(paste("The estimated 4-year atherosclerotic cardiovascular disease risk is <b style = 'color:#e74c3c'>", paste0(paste0(format(round(RISK * 100, digits = 2), nsmall = 2), "%"), "</b>.")))
-    } else {
-      RISK <- FEMALE_SDH_4_FUNCTION(AGE = reactive({ return(input$AGE) })(),
-                                    WEALTH_IMP = reactive({ return(mean(subset(DATA, PC6_2021 == input$PC6)$WEALTH_2014_IMP)) })(),
-                                    PC_EDUCATION_LOW_IMP = reactive({ return(mean(subset(DATA, PC6_2021 == input$PC6)$PC_EDUCATION_LOW_2014_IMP)) })(),
-                                    PC_EDUCATION_INTERMEDIATE_IMP = reactive({ return(mean(subset(DATA, PC6_2021 == input$PC6)$PC_EDUCATION_INTERMEDIATE_2014_IMP)) })(),
-                                    PC_EDUCATION_HIGH_IMP = reactive({ return(mean(subset(DATA, PC6_2021 == input$PC6)$PC_EDUCATION_HIGH_2014_IMP)) })(),
-                                    PC_PM25 = reactive({ return(mean(subset(DATA, PC6_2021 == input$PC6)$PC_PM25_2014)) })())
-      
-      return(paste("The estimated 4-year atherosclerotic cardiovascular disease risk is <b style = 'color:#e74c3c'>", paste0(paste0(format(round(RISK * 100, digits = 2), nsmall = 2), "%"), "</b>.")))
+    output$TEXT_IMP <- renderText({
+        if ((!isTruthy(input$AGE)) 
+            | 
+            (input$AGE < 40)
+            | 
+            (input$AGE >= 70)
+            |
+            (!isTruthy(input$MALE)) 
+            | 
+            (!isTruthy(input$PC6)) 
+            | 
+            (!c(input$PC6 %in% DATA$PC6_2021))) {
+            return(NULL)
+        } else {
+            N_IMP <- reactive({ return(sum(is.na(subset(DATA, PC6_2021 == input$PC6)$WEALTH_2014))) })
+            if (N_IMP() == 0) {
+                return(NULL)
+            } else {
+              TEXT_IMP <- paste("Please note imputed values concerning the neighbourhood characteristics were used.")
+              
+              return(TEXT_IMP)
+            }
+        }
+    })
+    
+    output$MAP <- renderPlot({
+        if (isTruthy(input$AGE) 
+            & 
+            (input$AGE >= 40) 
+            & 
+            (input$AGE < 70)
+            &
+            isTruthy(input$MALE) 
+            & 
+            isTruthy(input$PC6) 
+            & 
+            (input$PC6 %in% DATA$PC6_2021)) { 
+            GWB_CODE_2021_SELECTED <- reactive({ return(subset(DATA, PC6_2021 == input$PC6)$GWB_CODE_2021) })
+            G_NAME_2021_SELECTED <- reactive({ return(subset(DATA, PC6_2021 == input$PC6)$G_NAME_2021) })
+            GWB_CODE_2021_GGD_SOUTH_LIMBURG$SELECTED <- ifelse(GWB_CODE_2021_GGD_SOUTH_LIMBURG$GWB_CODE_2021 %in% subset(DATA, G_NAME_2021 == G_NAME_2021_SELECTED()[1])$GWB_CODE_2021,
+                                                               "G",
+                                                               "NOT_SELECTED")
+            GWB_CODE_2021_GGD_SOUTH_LIMBURG$SELECTED <- ifelse(GWB_CODE_2021_GGD_SOUTH_LIMBURG$GWB_CODE_2021 %in% as.integer(GWB_CODE_2021_SELECTED()),
+                                                               "B",
+                                                               GWB_CODE_2021_GGD_SOUTH_LIMBURG$SELECTED)
+            
+            if (G_NAME_2021_SELECTED()[1] %in% G_NAME_2021_X_Y$G_NAME_2021) {
+                MAP <- 
+                    ggplot() +
+                    geom_sf(data = GWB_CODE_2021_GGD_SOUTH_LIMBURG, aes(fill = as.factor(GWB_CODE_2021_GGD_SOUTH_LIMBURG$SELECTED))) +
+                    coord_sf(default_crs = sf::st_crs(4326)) +
+                    scale_x_continuous(limits = c(5.5, 6.2)) + 
+                    scale_y_continuous(limits = c(50.73, 51.07)) +
+                    scale_fill_manual(values = c("B" = "#2c3e50",
+                                                 "G" = "#b4bcc2",
+                                                 "NOT_SELECTED" = "white"),
+                                      guide = "none") +
+                    annotate("text",
+                             x = subset(G_NAME_2021_X_Y, G_NAME_2021_SELECTED()[1] == G_NAME_2021)$X,
+                             y = subset(G_NAME_2021_X_Y, G_NAME_2021_SELECTED()[1] == G_NAME_2021)$Y,
+                             label = G_NAME_2021_SELECTED()[1]) +
+                    theme_void() 
+                
+                return(MAP)  
+            } 
+            } else {
+                MAP <- 
+                    ggplot() +
+                    geom_sf(data = GWB_CODE_2021_GGD_SOUTH_LIMBURG, fill = "white") +
+                    coord_sf(default_crs = sf::st_crs(4326)) +
+                    scale_x_continuous(limits = c(5.5, 6.2)) + 
+                    scale_y_continuous(limits = c(50.73, 51.07)) +
+                    theme_void()
+                
+                return(MAP)
+            }
+        })
     }
-  })
-  
-  output$TEXT_COMPARISON <- renderText({
-    if ((!isTruthy(input$AGE)) 
-        | 
-        (input$AGE < 40)
-        | 
-        (input$AGE >= 70)
-        |
-        (!isTruthy(input$MALE)) 
-        | 
-        (!isTruthy(input$PC6)) 
-        | 
-        (!c(input$PC6 %in% DATA$PC6_2021))) {
-      return(NULL) 
-    } else if (input$MALE == 1) {
-      RISK <- MALE_SDH_8_FUNCTION(AGE = reactive({ return(input$AGE) })(),
-                                  WEALTH_IMP = reactive({ return(mean(subset(DATA, PC6_2021 == input$PC6)$WEALTH_2014_IMP)) })(),
-                                  PC_EDUCATION_LOW_IMP = reactive({ return(mean(subset(DATA, PC6_2021 == input$PC6)$PC_EDUCATION_LOW_2014_IMP)) })(),
-                                  PC_EDUCATION_INTERMEDIATE_IMP = reactive({ return(mean(subset(DATA, PC6_2021 == input$PC6)$PC_EDUCATION_INTERMEDIATE_2014_IMP)) })(),
-                                  PC_EDUCATION_HIGH_IMP = reactive({ return(mean(subset(DATA, PC6_2021 == input$PC6)$PC_EDUCATION_HIGH_2014_IMP)) })(),
-                                  PC_PM25 = reactive({ return(mean(subset(DATA, PC6_2021 == input$PC6)$PC_PM25_2014)) })())
-      
-      TEMP <- DATA[, c("GWB_CODE_2021",
-                       "WEALTH_2014_IMP",
-                       "PC_EDUCATION_LOW_2014_IMP",
-                       "PC_EDUCATION_INTERMEDIATE_2014_IMP",
-                       "PC_EDUCATION_HIGH_2014_IMP",
-                       "PC_PM25_2014")]
-      TEMP$AGE <- reactive({ return(input$AGE) })()
-      
-      TEMP$RISK <- MALE_SDH_8_FUNCTION(AGE = TEMP$AGE,
-                                       WEALTH_IMP = TEMP$WEALTH_2014_IMP,
-                                       PC_EDUCATION_LOW_IMP = TEMP$PC_EDUCATION_LOW_2014_IMP,
-                                       PC_EDUCATION_INTERMEDIATE_IMP = TEMP$PC_EDUCATION_INTERMEDIATE_2014_IMP,
-                                       PC_EDUCATION_HIGH_IMP = TEMP$PC_EDUCATION_HIGH_2014_IMP,
-                                       PC_PM25 = TEMP$PC_PM25_2014)
-      
-      MIN_RISK <- min(TEMP$RISK)
-      
-      RISK_DIVIDED_BY_MIN_RISK <- RISK / MIN_RISK
-      
-      if (RISK_DIVIDED_BY_MIN_RISK == 1) {
-        return(paste(" This is the lowest possible risk of a male of this age.")) 
-      } else if (RISK_DIVIDED_BY_MIN_RISK  <= 1.05) {
-        return(paste(" This is similar to the risk of a male of the same age living in the neighbourhood with the lowest risk.")) 
-      } else {
-        return(paste("This is", format(round(RISK_DIVIDED_BY_MIN_RISK, digits = 2), nsmall = 2), "times the risk of a male of the same age living in the neighbourhood with the lowest risk."))
-      }
-    } else {
-      RISK <- FEMALE_SDH_4_FUNCTION(AGE = reactive({ return(input$AGE) })(),
-                                    WEALTH_IMP = reactive({ return(mean(subset(DATA, PC6_2021 == input$PC6)$WEALTH_2014_IMP)) })(),
-                                    PC_EDUCATION_LOW_IMP = reactive({ return(mean(subset(DATA, PC6_2021 == input$PC6)$PC_EDUCATION_LOW_2014_IMP)) })(),
-                                    PC_EDUCATION_INTERMEDIATE_IMP = reactive({ return(mean(subset(DATA, PC6_2021 == input$PC6)$PC_EDUCATION_INTERMEDIATE_2014_IMP)) })(),
-                                    PC_EDUCATION_HIGH_IMP = reactive({ return(mean(subset(DATA, PC6_2021 == input$PC6)$PC_EDUCATION_HIGH_2014_IMP)) })(),
-                                    PC_PM25 = reactive({ return(mean(subset(DATA, PC6_2021 == input$PC6)$PC_PM25_2014)) })())
-      TEMP <- DATA[, c("GWB_CODE_2021",
-                       "WEALTH_2014_IMP",
-                       "PC_EDUCATION_LOW_2014_IMP",
-                       "PC_EDUCATION_INTERMEDIATE_2014_IMP",
-                       "PC_EDUCATION_HIGH_2014_IMP",
-                       "PC_PM25_2014")]
-      TEMP$AGE <- reactive({ return(input$AGE) })()
-      
-      TEMP$RISK <- FEMALE_SDH_4_FUNCTION(AGE = TEMP$AGE,
-                                         WEALTH_IMP = TEMP$WEALTH_2014_IMP,
-                                         PC_EDUCATION_LOW_IMP = TEMP$PC_EDUCATION_LOW_2014_IMP,
-                                         PC_EDUCATION_INTERMEDIATE_IMP = TEMP$PC_EDUCATION_INTERMEDIATE_2014_IMP,
-                                         PC_EDUCATION_HIGH_IMP = TEMP$PC_EDUCATION_HIGH_2014_IMP,
-                                         PC_PM25 = TEMP$PC_PM25_2014)
-      
-      MIN_RISK <- min(TEMP$RISK)
-      
-      RISK_DIVIDED_BY_MIN_RISK <- RISK / MIN_RISK
-      
-      if(RISK_DIVIDED_BY_MIN_RISK == 1) {
-        return(paste(" This is the lowest possible risk of a female of this age."))
-      } else if(RISK_DIVIDED_BY_MIN_RISK <= 1.05){
-        return(paste(" This is similar to the risk of a female of the same age living in the neighbourhood with the lowest risk.")) 
-      } else {
-        return(paste("This is", format(round(RISK_DIVIDED_BY_MIN_RISK, digits = 2), nsmall = 2), "times the risk of a female of the same age living in the neighbourhood with the lowest risk."))
-      }                
-    }
-  })
-  
-  output$TEXT_IMP <- renderText({
-    if ((!isTruthy(input$AGE)) 
-        | 
-        (input$AGE < 40)
-        | 
-        (input$AGE >= 70)
-        |
-        (!isTruthy(input$MALE)) 
-        | 
-        (!isTruthy(input$PC6)) 
-        | 
-        (!c(input$PC6 %in% DATA$PC6_2021))) {
-      return(NULL)
-    } else {
-      N_IMP <- reactive({ return(sum(is.na(subset(DATA, PC6_2021 == input$PC6)$WEALTH_2014))) })
-      if (N_IMP() == 0) {
-        return(NULL)
-      } else {
-        return("Please note imputed values concerning the neighbourhood characteristics were used.")
-      }
-    }
-  })
-  
-  output$MAP <- renderPlot({
-    if (isTruthy(input$AGE) 
-        & 
-        (input$AGE >= 40) 
-        & 
-        (input$AGE < 70)
-        &
-        isTruthy(input$MALE) 
-        & 
-        isTruthy(input$PC6) 
-        & 
-        (input$PC6 %in% DATA$PC6_2021)) { 
-      GWB_CODE_2021_SELECTED <- reactive({ return(subset(DATA, PC6_2021 == input$PC6)$GWB_CODE_2021) })
-      G_NAME_2021_SELECTED <- reactive({ return(subset(DATA, PC6_2021 == input$PC6)$G_NAME_2021) })
-      GWB_CODE_2021_GGD_SOUTH_LIMBURG$SELECTED <- ifelse(GWB_CODE_2021_GGD_SOUTH_LIMBURG$GWB_CODE_2021 %in% subset(DATA, G_NAME_2021 == G_NAME_2021_SELECTED()[1])$GWB_CODE_2021,
-                                                         "G",
-                                                         "NOT_SELECTED")
-      GWB_CODE_2021_GGD_SOUTH_LIMBURG$SELECTED <- ifelse(GWB_CODE_2021_GGD_SOUTH_LIMBURG$GWB_CODE_2021 %in% as.integer(GWB_CODE_2021_SELECTED()),
-                                                         "B",
-                                                         GWB_CODE_2021_GGD_SOUTH_LIMBURG$SELECTED)
-      
-      if (G_NAME_2021_SELECTED()[1] %in% G_NAME_2021_X_Y$G_NAME_2021) {
-        MAP <- 
-          ggplot() +
-          geom_sf(data = GWB_CODE_2021_GGD_SOUTH_LIMBURG, aes(fill = as.factor(GWB_CODE_2021_GGD_SOUTH_LIMBURG$SELECTED))) +
-          coord_sf(default_crs = sf::st_crs(4326)) +
-          scale_x_continuous(limits = c(5.5, 6.2)) + 
-          scale_y_continuous(limits = c(50.73, 51.07)) +
-          scale_fill_manual(values = c("B" = "#2c3e50",
-                                       "G" = "#b4bcc2",
-                                       "NOT_SELECTED" = "white"),
-                            guide = "none") +
-          annotate("text",
-                   x = subset(G_NAME_2021_X_Y, G_NAME_2021_SELECTED()[1] == G_NAME_2021)$X,
-                   y = subset(G_NAME_2021_X_Y, G_NAME_2021_SELECTED()[1] == G_NAME_2021)$Y,
-                   label = G_NAME_2021_SELECTED()[1]) +
-          theme_void() 
-        
-        return(MAP)  
-      } 
-    } else {
-      MAP <- 
-        ggplot() +
-        geom_sf(data = GWB_CODE_2021_GGD_SOUTH_LIMBURG, fill = "white") +
-        coord_sf(default_crs = sf::st_crs(4326)) +
-        scale_x_continuous(limits = c(5.5, 6.2)) + 
-        scale_y_continuous(limits = c(50.73, 51.07)) +
-        theme_void()
-      
-      return(MAP)
-    }
-  })
-}
 
 # Run ----
 
