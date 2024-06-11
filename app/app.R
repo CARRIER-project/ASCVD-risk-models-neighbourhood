@@ -462,7 +462,7 @@ server <- function(input, output, session) {
       return(NULL)
     } else {
       N_IMP <- reactive({ return(sum(is.na(subset(DATA, PC6_2021 == input$PC6)$WEALTH_2014))) })
-      if(N_IMP() == 0) {
+      if (N_IMP() == 0) {
         return(NULL)
       } else {
         return("Please note imputed values concerning the neighbourhood characteristics were used.")
